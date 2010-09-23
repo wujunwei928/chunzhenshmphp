@@ -1,0 +1,13 @@
+// $Id$
+// vim:ft=javascript
+
+// If your extension references something external, use ARG_WITH
+// ARG_WITH("chunzhen_shm", "for chunzhen_shm support", "no");
+
+// Otherwise, use ARG_ENABLE
+// ARG_ENABLE("chunzhen_shm", "enable chunzhen_shm support", "no");
+
+if (PHP_CHUNZHEN_SHM != "no") {
+	EXTENSION("chunzhen_shm", "chunzhen_shm.c");
+}
+
