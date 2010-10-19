@@ -26,7 +26,8 @@
 #include <Windows.h>
 #endif
 
-#define CHUNZHEN_STR_MAX_LEN	64
+#define CHUNZHEN_SEEK_CUR	0x01
+#define CHUNZHEN_SEEK_SET	0x02
 
 bool	IPNumtoStr(char* szBuffer, unsigned int nBufferLen, unsigned int nIPNum);
 
@@ -36,8 +37,8 @@ bool	IPNumtoStr(char* szBuffer, unsigned int nBufferLen, unsigned int nIPNum);
 typedef struct _ipEntry {
 	unsigned int	nBeginIP;
 	unsigned int	nEndIP;
-	char			szCountry[CHUNZHEN_STR_MAX_LEN];
-	char			szArea[CHUNZHEN_STR_MAX_LEN];
+	const char*		szCountry;
+	const char*		szArea;
 } IPEntry;
 
 /************************************************************************/
@@ -50,11 +51,10 @@ public:
 	~ChunZhenDB();
 
 	void	Rewind();
-	void	Seek(unsigned int nOffset);
+	void	Seek(unsigned int nOffset, int nSeekType = CHUNZHEN_SEEK_SET);
 	unsigned int ReadLong();
 	unsigned int ReadStrOffSet();
-	void	GetStr(char* szBuffer, unsigned int nBufferLen);
-	void	GetArea(char* szBuffer, unsigned int nBufferLen);
+	void	GetArea(const char** szBuffer);
 	bool	GetLocation(const char* szIPStr, unsigned int nIPLen, 
 							IPEntry& stIPEntry);
 	bool	GetLocation(unsigned int nIPNum, IPEntry& stIPEntry);
@@ -70,7 +70,7 @@ private:
 
 	unsigned char	* m_szDBPtr;
 	unsigned char	* m_ucCursor;
-	unsigned long	m_nDBSize;
+	unsigned int	m_nDBSize;
 #ifdef WIN32
 	HANDLE			m_stHandle;
 #else

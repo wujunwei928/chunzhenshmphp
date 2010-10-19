@@ -111,27 +111,9 @@ ChunZhenDB::~ChunZhenDB()
 }
 
 /************************************************************************/
-/* 从共享内存里读出一段以 NULL 结尾的字符串                             */
-/************************************************************************/
-void ChunZhenDB::GetStr(char* szBuffer, unsigned int nBufferLen)
-{
-	char	cTemp;
-	for(unsigned int i = 0; i < nBufferLen; ++ i)
-	{
-		cTemp	= ReadByte();
-		if(cTemp == 0)
-		{
-			break;
-		} else {
-			szBuffer[i]	= cTemp;
-		}
-	}
-}
-
-/************************************************************************/
 /* 从共享内存中读取出区域字段的信息                                     */
 /************************************************************************/
-void ChunZhenDB::GetArea(char* szBuffer, unsigned int nBufferLen)
+void ChunZhenDB::GetArea(const char** ppStrPtr)
 {
 	char	cTemp = 0;
 	cTemp	= ReadByte();
@@ -142,11 +124,10 @@ void ChunZhenDB::GetArea(char* szBuffer, unsigned int nBufferLen)
 	case 0x01:
 	case 0x02:
 		Seek(ReadStrOffSet());
-		GetStr(szBuffer, nBufferLen);
+		*ppStrPtr	= (const char*) m_ucCursor;
 		return;
 	default:
-		szBuffer[0]	= cTemp;
-		GetStr(&szBuffer[1], nBufferLen - 1);
+		*ppStrPtr	= (const char*) (m_ucCursor - 1);
 	}
 }
 
@@ -164,9 +145,15 @@ unsigned char ChunZhenDB::ReadByte()
 /************************************************************************/
 /* 移动指针到要读取的位置                                               */
 /************************************************************************/
-void ChunZhenDB::Seek(unsigned int nOffset)
+void ChunZhenDB::Seek(unsigned int nOffset, int nSeekType)
 {
-	m_ucCursor	= m_szDBPtr + nOffset;
+	if (nSeekType == CHUNZHEN_SEEK_SET)
+	{
+		m_ucCursor	= m_szDBPtr + nOffset;
+	} else if (nSeekType == CHUNZHEN_SEEK_CUR)
+	{
+		m_ucCursor	+= nOffset;
+	}
 }
 
 /************************************************************************/
@@ -275,35 +262,35 @@ bool	ChunZhenDB::GetLocation(unsigned int nIPNum, IPEntry& stIPEntry)
 		{
 		case 0x02:
 			Seek(ReadStrOffSet());
-			GetStr(stIPEntry.szCountry, sizeof(stIPEntry.szCountry) - 1);
+			stIPEntry.szCountry	= (const char*) m_ucCursor;
 			Seek(nOffset + 4);
-			GetArea(stIPEntry.szArea, sizeof(stIPEntry.szArea) - 1);
+			GetArea(&stIPEntry.szArea);
 			break;
 		default:
-			stIPEntry.szCountry[0]	= cTemp;
-			GetStr(&(stIPEntry.szCountry[1]), sizeof(stIPEntry.szCountry) - 2);
-			GetArea(stIPEntry.szArea, sizeof(stIPEntry.szArea) - 1);
+			stIPEntry.szCountry	= (const char*) (m_ucCursor - 1);
+			Seek(strlen((const char*) m_ucCursor) + 1, CHUNZHEN_SEEK_CUR);
+			GetArea(&stIPEntry.szArea);
 		}
 		break;
 	case 0x02:
 		Seek(ReadStrOffSet());
-		GetStr(stIPEntry.szCountry, sizeof(stIPEntry.szCountry) - 1);
+		stIPEntry.szCountry	= (const char*) m_ucCursor;
 		Seek(nOffset + 8);
-		GetArea(stIPEntry.szArea, sizeof(stIPEntry.szArea) - 1);
+		GetArea(&stIPEntry.szArea);
 		break;
 	default:
-		stIPEntry.szCountry[0]	= cTemp;
-		GetStr(&(stIPEntry.szCountry[1]), sizeof(stIPEntry.szCountry) - 2);
-		GetArea(stIPEntry.szArea, sizeof(stIPEntry.szArea));
+		stIPEntry.szCountry	= (const char*) (m_ucCursor - 1);
+		Seek(strlen((const char*) m_ucCursor) + 1, CHUNZHEN_SEEK_CUR);
+		GetArea(&stIPEntry.szArea);
 	}
 
 	if(strcasecmp(stIPEntry.szCountry, " CZ88.NET") == 0)
 	{
-		strncpy(stIPEntry.szCountry, "unkown", sizeof(stIPEntry.szCountry) - 1);
+		stIPEntry.szCountry	= "unkown";
 	}
 	if(strcasecmp(stIPEntry.szArea, " CZ88.NET") == 0)
 	{
-		strncpy(stIPEntry.szArea, "unkown", sizeof(stIPEntry.szArea) - 1);
+		stIPEntry.szArea	= "unkown";
 	}
 
 	return true;
