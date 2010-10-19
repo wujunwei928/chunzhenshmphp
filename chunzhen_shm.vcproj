@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="chunzhen_shm"
 	ProjectGUID="{8BD9F06A-43BB-4699-9837-5373E06BA836}"
+	RootNamespace="chunzhen_shm"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -23,7 +24,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
-			WholeProgramOptimization="1"
+			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -48,9 +49,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\..,..\..\main,..\..\Zend,..\..\..\bindlib_w32,..\..\TSRM"
@@ -65,6 +66,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
 				CompileAs="2"
 			/>
 			<Tool
@@ -85,6 +87,8 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\Release_TS,..\..\Release_TS_Inline"
+				GenerateDebugInformation="true"
+				AssemblyDebug="1"
 				ProgramDatabaseFile=".\Release_TS/php_chunzhen_shm.pdb"
 				OptimizeForWindows98="1"
 				RandomizedBaseAddress="1"
