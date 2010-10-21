@@ -190,8 +190,8 @@ PHP_FUNCTION(chunzhen_getIPLocation)
 		IPNumtoStr(szBuffer, sizeof(szBuffer) - 1, stIPEntry.nEndIP);
 		add_assoc_string(return_value, "EndIP", szBuffer, 1);
 
-		add_assoc_string(return_value, "Country", (char*) stIPEntry.szCountry, 0);
-		add_assoc_string(return_value, "Area", (char*) stIPEntry.szArea, 0);
+		add_assoc_string(return_value, "Country", (char*) stIPEntry.szCountry, 1);
+		add_assoc_string(return_value, "Area", (char*) stIPEntry.szArea, 1);
 		return;
 	}
 	RETURN_FALSE;
