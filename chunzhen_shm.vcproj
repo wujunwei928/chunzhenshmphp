@@ -24,7 +24,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
-			WholeProgramOptimization="0"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -49,11 +49,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				InlineFunctionExpansion="0"
-				EnableIntrinsicFunctions="false"
+				Optimization="3"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
+				EnableFiberSafeOptimizations="true"
 				AdditionalIncludeDirectories="..\..,..\..\main,..\..\Zend,..\..\..\bindlib_w32,..\..\TSRM"
 				PreprocessorDefinitions="ZEND_DEBUG=0;WIN32;NDEBUG;_WINDOWS;_USRDLL;CHUNZHEN_SHM_EXPORTS;COMPILE_DL_CHUNZHEN_SHM;ZTS=1;ZEND_WIN32;PHP_WIN32;HAVE_CHUNZHEN_SHM=1;_USE_32BIT_TIME_T"
 				StringPooling="true"
@@ -63,10 +64,10 @@
 				AssemblerListingLocation=".\Release_TS/"
 				ObjectFile=".\Release_TS/"
 				ProgramDataBaseFileName=".\Release_TS/"
-				BrowseInformation="1"
+				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="1"
+				DebugInformationFormat="0"
 				CompileAs="2"
 			/>
 			<Tool
@@ -87,10 +88,10 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\Release_TS,..\..\Release_TS_Inline"
-				GenerateDebugInformation="true"
-				AssemblyDebug="1"
+				GenerateDebugInformation="false"
+				AssemblyDebug="0"
 				ProgramDatabaseFile=".\Release_TS/php_chunzhen_shm.pdb"
-				OptimizeForWindows98="1"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				ImportLibrary=".\Release_TS/php_chunzhen_shm.lib"
