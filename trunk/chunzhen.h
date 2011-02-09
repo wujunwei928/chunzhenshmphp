@@ -71,6 +71,9 @@ private:
 	unsigned char	* m_szDBPtr;
 	unsigned char	* m_ucCursor;
 	unsigned int	m_nDBSize;
+	unsigned int	m_nFirstIP;
+	unsigned int	m_nLastIP;
+	unsigned int	m_nTotalCount;
 #ifdef WIN32
 	HANDLE			m_stHandle;
 #else

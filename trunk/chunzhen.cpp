@@ -96,6 +96,10 @@ ChunZhenDB::ChunZhenDB(char* szFileName)
     }
 #endif
 	m_ucCursor	= m_szDBPtr;
+
+	m_nFirstIP		= ReadLong();
+	m_nLastIP		= ReadLong();
+	m_nTotalCount	= (m_nLastIP - m_nFirstIP) / 7;
 }
 
 /************************************************************************/
@@ -216,18 +220,15 @@ bool	ChunZhenDB::GetLocation(unsigned int nIPNum, IPEntry& stIPEntry)
 
 	Rewind();
 	unsigned int	nLow		= 0;
-	unsigned int	nFirstIP	= ReadLong();
-	unsigned int	nLastIP		= ReadLong();
-	unsigned int	nTotalCount	= (nLastIP - nFirstIP) / 7;
-	unsigned int	nHigh		= nTotalCount;
+	unsigned int	nHigh		= m_nTotalCount;
 
-	unsigned int	nFindIP	= nLastIP;
+	unsigned int	nFindIP	= m_nLastIP;
 	unsigned int	nBegin	= 0;
 	unsigned int	nEnd	= 0;
 	while (nLow <= nHigh)
 	{
 		unsigned int nMiddle	= (nLow + nHigh) / 2;
-		Seek(nFirstIP + nMiddle * 7);
+		Seek(m_nFirstIP + nMiddle * 7);
 		nBegin	= ReadLong();
 		if (nIPNum < nBegin)
 		{
@@ -239,7 +240,7 @@ bool	ChunZhenDB::GetLocation(unsigned int nIPNum, IPEntry& stIPEntry)
 			{
 				nLow	= nMiddle + 1;
 			} else {
-				nFindIP	= nFirstIP + nMiddle * 7;
+				nFindIP	= m_nFirstIP + nMiddle * 7;
 				break;
 			}
 		}
