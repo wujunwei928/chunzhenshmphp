@@ -54,7 +54,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				EnableFiberSafeOptimizations="true"
+				EnableFiberSafeOptimizations="false"
 				AdditionalIncludeDirectories="..\..,..\..\main,..\..\Zend,..\..\..\bindlib_w32,..\..\TSRM"
 				PreprocessorDefinitions="ZEND_DEBUG=0;WIN32;NDEBUG;_WINDOWS;_USRDLL;CHUNZHEN_SHM_EXPORTS;COMPILE_DL_CHUNZHEN_SHM;ZTS=1;ZEND_WIN32;PHP_WIN32;HAVE_CHUNZHEN_SHM=1;_USE_32BIT_TIME_T"
 				StringPooling="true"

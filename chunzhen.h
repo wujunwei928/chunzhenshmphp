@@ -50,10 +50,10 @@ public:
 	ChunZhenDB(char* szFileName);
 	~ChunZhenDB();
 
-	void	Rewind();
-	void	Seek(unsigned int nOffset, int nSeekType = CHUNZHEN_SEEK_SET);
-	unsigned int ReadLong();
-	unsigned int ReadStrOffSet();
+	inline void	Rewind();
+	inline void	Seek(unsigned int nOffset, int nSeekType = CHUNZHEN_SEEK_SET);
+	inline unsigned int ReadLong();
+	inline unsigned int ReadStrOffSet();
 	void	GetArea(const char** szBuffer);
 	bool	GetLocation(const char* szIPStr, unsigned int nIPLen, 
 							IPEntry& stIPEntry);
@@ -66,7 +66,7 @@ public:
 	static unsigned int	IPtoLong(const char* szIPStr, unsigned int nIPLen);
 
 private:
-	unsigned char ReadByte();
+	inline unsigned char ReadByte();
 
 	unsigned char	* m_szDBPtr;
 	unsigned char	* m_ucCursor;

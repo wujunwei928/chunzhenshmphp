@@ -70,18 +70,27 @@ ChunZhenDB::ChunZhenDB(char* szFileName)
 		if(m_nDBSize == 0xFFFFFFFF)
 		{
 			m_nDBSize	= 0;
+			CloseHandle(stTempFile);
 			return;
 		}
 		m_stHandle	= CreateFileMapping(stTempFile, NULL, PAGE_READONLY, 0, 
 										m_nDBSize, "CHUNZHEN_IP_DB");
-		if(m_stHandle == INVALID_HANDLE_VALUE)
+		if(m_stHandle == INVALID_HANDLE_VALUE || m_stHandle == NULL)
 		{
 			m_nDBSize	= 0;
 			m_stHandle	= NULL;
+			CloseHandle(stTempFile);
 			return;
 		}
 		m_szDBPtr	= (unsigned char*) MapViewOfFile(m_stHandle, 
 											FILE_MAP_READ, 0, 0, m_nDBSize);
+		if (m_szDBPtr == NULL)
+		{
+			m_nDBSize	= 0;
+			CloseHandle(m_stHandle);
+			CloseHandle(stTempFile);
+			m_stHandle	= NULL;
+		}
 	}
 	CloseHandle(stTempFile);
 #else
@@ -97,9 +106,12 @@ ChunZhenDB::ChunZhenDB(char* szFileName)
 #endif
 	m_ucCursor	= m_szDBPtr;
 
-	m_nFirstIP		= ReadLong();
-	m_nLastIP		= ReadLong();
-	m_nTotalCount	= (m_nLastIP - m_nFirstIP) / 7;
+	if (m_ucCursor != NULL)
+	{
+		m_nFirstIP		= ReadLong();
+		m_nLastIP		= ReadLong();
+		m_nTotalCount	= (m_nLastIP - m_nFirstIP) / 7;
+	}
 }
 
 /************************************************************************/
