@@ -1,8 +1,7 @@
 # chunzhenshmphp
 Automatically exported from code.google.com/p/chunzhenshmphp
 
-    之前在项目中用到了纯真ip库的扩展, 那时这个项目托管在google code, 现在google code要关闭了, 留在这里备用,  
-    如有侵权, 请告知, 立马删除, 谢谢
+    之前在项目中用到了纯真ip库的扩展, 那时这个项目托管在google code, 现在google code要关闭了, 留在这里备用
 
 使用纯真IP数据库解析PHP的扩展，使用C++编写，支持Windows + Apache2.2 + PHP5(ZTS)、支持Linux + Nginx + PHP5(FastCGI)。
 
